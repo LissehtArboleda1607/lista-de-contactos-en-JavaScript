@@ -8,8 +8,10 @@
 <body>
     <h1>Lista de Contactos</h1>
 
+    <!-- Botón para agregar un nuevo contacto -->
     <button id="agregarContacto">Agregar Contacto</button>
 
+    <!-- Tabla para mostrar la lista de contactos -->
     <table border="1">
         <thead>
             <tr>
@@ -19,10 +21,12 @@
                 <th>Teléfono</th>
                 <th>Ciudad</th>
                 <th>Dirección</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody id="listaContactos">
-            </tbody>
+            <!-- Aquí se agregarán las filas de la lista de contactos con JavaScript -->
+        </tbody>
     </table>
 
     <script>
@@ -74,6 +78,27 @@
             actualizarTabla();
         }
 
+        function eliminarContacto(id) {
+            const indice = listaDeContactos.findIndex(contacto => contacto.id === id);
+            if (indice !== -1) {
+                listaDeContactos.splice(indice, 1);
+                actualizarTabla();
+            }
+        }
+
+        function actualizarContacto(id, nuevosDatos) {
+            const contacto = listaDeContactos.find(contacto => contacto.id === id);
+            if (contacto) {
+                // Actualizar los datos del contacto
+                contacto.nombre = nuevosDatos.nombre;
+                contacto.apellido = nuevosDatos.apellido;
+                contacto.telefono = nuevosDatos.telefono;
+                contacto.ubicacion.ciudad = nuevosDatos.ciudad;
+                contacto.ubicacion.direccion = nuevosDatos.direccion;
+                actualizarTabla();
+            }
+        }
+
         function actualizarTabla() {
             const tabla = document.getElementById('listaContactos');
             tabla.innerHTML = '';
@@ -87,17 +112,37 @@
                     <td>${contacto.telefono}</td>
                     <td>${contacto.ubicacion.ciudad}</td>
                     <td>${contacto.ubicacion.direccion}</td>
+                    <td>
+                        <button onclick="eliminarContacto(${contacto.id})">Eliminar</button>
+                        <button onclick="editarContacto(${contacto.id})">Editar</button>
+                    </td>
                 `;
                 tabla.appendChild(fila);
             });
         }
 
+        function editarContacto(id) {
+            const contacto = listaDeContactos.find(contacto => contacto.id === id);
+            if (contacto) {
+                const nuevosDatos = {
+                    nombre: prompt('Nuevo nombre:', contacto.nombre),
+                    apellido: prompt('Nuevo apellido:', contacto.apellido),
+                    telefono: prompt('Nuevo teléfono:', contacto.telefono),
+                    ciudad: prompt('Nueva ciudad:', contacto.ubicacion.ciudad),
+                    direccion: prompt('Nueva dirección:', contacto.ubicacion.direccion),
+                };
+                actualizarContacto(id, nuevosDatos);
+            }
+        }
+
+        // Cargar los contactos al cargar la página
         actualizarTabla();
 
+        // Evento para agregar un nuevo contacto al hacer clic en el botón "Agregar Contacto"
         const botonAgregar = document.getElementById('agregarContacto');
         botonAgregar.addEventListener('click', () => {
             const nuevoContacto = {
-                id: listaDeContactos.length + 1, 
+                id: listaDeContactos.length + 1, // Generar un nuevo ID
                 nombre: prompt('Ingrese el nombre del nuevo contacto:'),
                 apellido: prompt('Ingrese el apellido del nuevo contacto:'),
                 telefono: prompt('Ingrese el teléfono del nuevo contacto:'),
