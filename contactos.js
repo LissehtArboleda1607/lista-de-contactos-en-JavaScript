@@ -68,14 +68,26 @@ function actualizarContacto(id, nuevosDatos) {
     }
 }
 
-const idAActualizar = 2; 
-const nuevosDatos = {
+function eliminarContacto(id) {
+    const indice = listaDeContactos.findIndex(contacto => contacto.id === id);
+    if (indice !== -1) {
+        listaDeContactos.splice(indice, 1);
+    }
+}
+
+const idAEliminar = 2; 
+eliminarContacto(idAEliminar);
+imprimirContactos(); 
+
+const nuevoContacto = {
+    id: listaDeContactos.length + 1,
     nombre: 'NuevoNombre',
     apellido: 'NuevoApellido',
     telefono: 'NuevoTelefono',
-    ciudad: 'NuevaCiudad',
-    direccion: 'NuevaDirección'
+    ubicacion: {
+        ciudad: 'NuevaCiudad',
+        direccion: 'NuevaDirección'
+    }
 };
-
-actualizarContacto(idAActualizar, nuevosDatos);
-imprimirContactos(); 
+agregarContacto(nuevoContacto);
+imprimirContactos();
