@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Contactos</title>
+</head>
+<body>
+    <h1>Lista de Contactos</h1>
+
+    <button id="agregarContacto">Agregar Contacto</button>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Ciudad</th>
+                <th>Dirección</th>
+            </tr>
+        </thead>
+        <tbody id="listaContactos">
+            </tbody>
+    </table>
+
+    <script>
+        const listaDeContactos = [
+            {
+                id: 1,
+                nombre: 'Juan',
+                apellido: 'Pérez',
+                telefono: '3201569874',
+                ubicacion: {
+                    ciudad: 'Ciudad Armenia',
+                    direccion: 'Calle 123 - 32 25'
+                }
+            },
+            {
+                id: 2,
+                nombre: 'María',
+                apellido: 'Gómez',
+                telefono: '3154251845',
+                ubicacion: {
+                    ciudad: 'Ciudad Bogotá',
+                    direccion: 'Avenida Ciudad de Cali con Calle 139'
+                }
+            },
+            {
+                id: 3,
+                nombre: 'Yolanda',
+                apellido: 'González',
+                telefono: '3192254518',
+                ubicacion: {
+                    ciudad: 'Ciudad Bogotá',
+                    direccion: 'Avenida 68 -16 22'
+                }
+            },
+            {
+                id: 4,
+                nombre: 'Ramiro',
+                apellido: 'Díaz',
+                telefono: '3217792474',
+                ubicacion: {
+                    ciudad: 'Ciudad Medellín',
+                    direccion: 'El Poblado'
+                }
+            }
+        ];
+
+        function agregarContacto(nuevoContacto) {
+            listaDeContactos.push(nuevoContacto);
+            actualizarTabla();
+        }
+
+        function actualizarTabla() {
+            const tabla = document.getElementById('listaContactos');
+            tabla.innerHTML = '';
+
+            listaDeContactos.forEach(contacto => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${contacto.id}</td>
+                    <td>${contacto.nombre}</td>
+                    <td>${contacto.apellido}</td>
+                    <td>${contacto.telefono}</td>
+                    <td>${contacto.ubicacion.ciudad}</td>
+                    <td>${contacto.ubicacion.direccion}</td>
+                `;
+                tabla.appendChild(fila);
+            });
+        }
+
+        actualizarTabla();
+
+        const botonAgregar = document.getElementById('agregarContacto');
+        botonAgregar.addEventListener('click', () => {
+            const nuevoContacto = {
+                id: listaDeContactos.length + 1, 
+                nombre: prompt('Ingrese el nombre del nuevo contacto:'),
+                apellido: prompt('Ingrese el apellido del nuevo contacto:'),
+                telefono: prompt('Ingrese el teléfono del nuevo contacto:'),
+                ubicacion: {
+                    ciudad: prompt('Ingrese la ciudad del nuevo contacto:'),
+                    direccion: prompt('Ingrese la dirección del nuevo contacto:')
+                }
+            };
+            agregarContacto(nuevoContacto);
+        });
+    </script>
+</body>
+</html>
